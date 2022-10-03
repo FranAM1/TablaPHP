@@ -1,5 +1,7 @@
     <?php
     global $casts;
+    global $variables;
+    $variables = array(null, 0, true);
     $casts = array("isset", "empty", "bool", "isnull");
 
     function typeTester($casting, $var)
@@ -20,17 +22,10 @@
         }
 
         if ($answer) {
-            echo "true";
+            return "true";
         } else {
-            echo "false";
+            return "false";
         }
-    }
-
-
-    function rowsCount()
-    {
-        static $row = 1;
-        echo $row++;
     }
     ?>
 
@@ -71,43 +66,23 @@
                 <th>(bool) $var</th>
                 <th>isnull($var)</th>
             </tr>
-            <tr>
-                <td><?php rowsCount() ?></td>
-                <td>$var = null</td>
-                <?php
-                $var = null;
-                for ($i = 0; $i < count($casts); $i++) {
-                    echo "<td>";
-                    typeTester($casts[$i], $var);
-                    echo "</td>";
+            <?php
+                $output ="";
+                for($i = 0; $i < count($variables); $i++){
+                    $var = $variables[$i];
+                    if($var === null){
+                        $var = "null";
+                    }
+                    $row = $i + 1;
+                    $output .= "<tr><td>$row</td><td>\$var = $var</td>";
+                    for($y = 0; $y < count($casts);$y++){
+                        $answer = typeTester($casts[$y], $variables[$i]);
+                        $output .= "<td>$answer</td>";
+                    }
+                    $output .= "</tr>";
                 }
-                ?>
-                </td>
-            </tr>
-            <tr>
-                <td><?php rowsCount() ?></td>
-                <td>$var = 0</td>
-                <?php
-                $var = 0;
-                for ($i = 0; $i < count($casts); $i++) {
-                    echo "<td>";
-                    typeTester($casts[$i], $var);
-                    echo "</td>";
-                }
-                ?>
-            </tr>
-            <tr>
-                <td><?php rowsCount() ?></td>
-                <td>$var = true</td>
-                <?php
-                $var = true;
-                for ($i = 0; $i < count($casts); $i++) {
-                    echo "<td>";
-                    typeTester($casts[$i], $var);
-                    echo "</td>";
-                }
-                ?>
-            </tr>
+                echo $output;
+            ?>
         </table>
         <br>
         <?php
