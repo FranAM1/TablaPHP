@@ -72,6 +72,8 @@
                     $var = $variables[$i];
                     if($var === null){
                         $var = "null";
+                    }elseif($var === true){
+                        $var = "true";
                     }
                     $row = $i + 1;
                     $output .= "<tr><td>$row</td><td>\$var = $var</td>";
