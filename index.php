@@ -109,6 +109,19 @@
                 ?>
             </tr>
         </table>
+        <br>
+        <?php
+            $output = "<table>";
+            for($i = 0;$i < 11;$i++){
+                $output .= "<tr>";
+                for($y = 0;$y < 11;$y++){
+                    $calculo = $i*$y;
+                    $output .= "<td>$i * $y = $calculo</td>";
+                }
+                $output .= "</tr>";
+            }
+            $output .= "</table>";
+            echo $output;
+        ?>
     </body>
-
     </html>
